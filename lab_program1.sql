@@ -3,28 +3,28 @@ USE INSURANCE;
 SHOW DATABASES;
 
 CREATE TABLE PERSON(
-	driver_id VARCHAR(10),
+    driver_id VARCHAR(10),
     name VARCHAR(20),
     address VARCHAR(15),
     PRIMARY KEY(driver_id)
 );
 
 CREATE TABLE CAR(
-	reg_no VARCHAR(10),
+    reg_no VARCHAR(10),
     model VARCHAR(20),
     year DATE,
     PRIMARY KEY(reg_no)
 );
 
 CREATE TABLE ACCIDENT(
-	report_no INT,
+    report_no INT,
     adate DATE,
     location VARCHAR(15),
     PRIMARY KEY(report_no)
 );
 
 CREATE TABLE OWNS(
-	driver_id VARCHAR(10),
+    driver_id VARCHAR(10),
     reg_no VARCHAR(10),
     PRIMARY KEY(driver_id,reg_no),
     FOREIGN KEY(driver_id) REFERENCES PERSON(driver_id) ON DELETE CASCADE,
@@ -32,12 +32,12 @@ CREATE TABLE OWNS(
 );
 
 CREATE TABLE PARTICIPATED(
-	driver_id VARCHAR(10),
+    driver_id VARCHAR(10),
     reg_no VARCHAR(10),
     report_no INT,
     damage_amt FLOAT,
     FOREIGN KEY(driver_id,reg_no) REFERENCES OWNS(driver_id,reg_no) ON DELETE CASCADE,
-	FOREIGN KEY(report_no) REFERENCES ACCIDENT(report_no) ON DELETE CASCADE
+    FOREIGN KEY(report_no) REFERENCES ACCIDENT(report_no) ON DELETE CASCADE
 );
 
 INSERT INTO PERSON VALUES('1111','RAMU','K.S.LAYOUT');
