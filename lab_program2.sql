@@ -3,7 +3,7 @@ CREATE DATABASE BOOK_DEALER;
 USE BOOK_DEALER;
 
 CREATE TABLE AUTHOR(
-	  author_id INT,
+    author_id INT,
     name VARCHAR(20),
     city VARCHAR(20),
     country VARCHAR(20),
@@ -11,7 +11,7 @@ CREATE TABLE AUTHOR(
 );
 
 CREATE TABLE PUBLISHER(
-	  publisher_id INT,
+    publisher_id INT,
     name VARCHAR(20),
     city VARCHAR(20),
     country VARCHAR(20),
@@ -19,7 +19,7 @@ CREATE TABLE PUBLISHER(
 );
 
 CREATE TABLE CATEGORY(
-	  category_id INT,
+    category_id INT,
     description VARCHAR(40),
     PRIMARY KEY(category_id)
 );
@@ -39,7 +39,7 @@ CREATE TABLE CATALOG(
 );
 
  CREATE TABLE ORDER_DETAILS(
-	  order_no INT,
+    order_no INT,
     book_id INT,
     quantity INT,
     PRIMARY KEY(order_no)
