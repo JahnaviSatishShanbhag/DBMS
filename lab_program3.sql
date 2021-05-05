@@ -3,13 +3,13 @@ CREATE DATABASE ORDER_PROCESSING;
 USE ORDER_PROCESSING;
 
 CREATE TABLE CUSTOMER(
-	cust_id INT PRIMARY KEY,
+    cust_id INT PRIMARY KEY,
     cname VARCHAR(20),
     city VARCHAR(20)
 );
 
 CREATE TABLE ORDERS(
-	order_no INT PRIMARY KEY,
+    order_no INT PRIMARY KEY,
     odate date,
     cust_no INT,
     order_amt INT,
@@ -17,12 +17,12 @@ CREATE TABLE ORDERS(
 );
 
 CREATE TABLE ITEM(
-	item_no INT PRIMARY KEY,
+    item_no INT PRIMARY KEY,
     price int
 );
 
 CREATE TABLE ORDER_ITEM(
-	order_no INT,
+    order_no INT,
     item_no INT,
     qty INT,
     FOREIGN KEY(order_no) REFERENCES ORDERS(order_no) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -30,12 +30,12 @@ CREATE TABLE ORDER_ITEM(
 );
 
 CREATE TABLE WAREHOUSE(
-	warehouse_no INT PRIMARY KEY,
+    warehouse_no INT PRIMARY KEY,
     city VARCHAR(20)
 );
     
 CREATE TABLE SHIPMENT(
-	order_no INT,
+    order_no INT,
     warehouse_no INT,
     date DATE,
     FOREIGN KEY(order_no) REFERENCES ORDERS(order_no) ON DELETE SET NULL ON UPDATE CASCADE,
