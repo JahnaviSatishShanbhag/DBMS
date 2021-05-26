@@ -3,36 +3,36 @@ CREATE DATABASE student_enrollment;
 USE student_enrollment;
 
 CREATE TABLE student(
-	reg_no VARCHAR(10) PRIMARY KEY,
+    reg_no VARCHAR(10) PRIMARY KEY,
     name VARCHAR(20),
     major VARCHAR(10),
     bdate date
 );
 
 CREATE TABLE course(
-	course_no INT PRIMARY KEY,
+    course_no INT PRIMARY KEY,
     cname VARCHAR(20),
     dept VARCHAR(20)
 );
 
 CREATE TABLE enroll(
-	reg_no VARCHAR(10),
-	course_no INT,
-	marks INT,
+    reg_no VARCHAR(10),
+    course_no INT,
+    marks INT,
     sem int,
     FOREIGN KEY(reg_no) REFERENCES student(reg_no) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY(course_no) REFERENCES course(course_no) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE text(
-	book_isbn INT PRIMARY KEY,
+    book_isbn INT PRIMARY KEY,
     book_title VARCHAR(20),
     publisher VARCHAR(20),
     author VARCHAR(20)
 );
 
 CREATE TABLE book_adoption(
-	course_no INT,
+    course_no INT,
     sem INT,
     book_isbn INT,
     FOREIGN KEY(course_no) REFERENCES course(course_no) ON DELETE CASCADE ON UPDATE CASCADE,
