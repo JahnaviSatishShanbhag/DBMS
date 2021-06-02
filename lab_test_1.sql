@@ -33,8 +33,6 @@ CREATE TABLE text(
     author VARCHAR(20)
 );
 
-
-commit;
 CREATE TABLE book_adoption(
     course_no INT,
     sem INT,
@@ -124,3 +122,5 @@ AND
 b.book_isbn=t.book_isbn
 AND
 t.publisher='Springer';
+
+commit;
