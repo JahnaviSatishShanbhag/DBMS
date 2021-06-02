@@ -4,20 +4,20 @@ USE student_enroll;
 
 -- Question i
 CREATE TABLE student(
-	regno VARCHAR(20) PRIMARY KEY,
+    regno VARCHAR(20) PRIMARY KEY,
     name VARCHAR(20),
     major VARCHAR(20),
     bdate date
 );
 
 CREATE TABLE course(
-	course_no INT PRIMARY KEY,
+    course_no INT PRIMARY KEY,
     cname VARCHAR(20),
     dept VARCHAR(20)
 );
 
 CREATE TABLE enroll(
-	regno VARCHAR(20),
+    regno VARCHAR(20),
     course_no INT,
     marks INT,
     sem INT,
@@ -27,14 +27,14 @@ CREATE TABLE enroll(
 );
 
 CREATE TABLE text(
-	book_isbn INT PRIMARY KEY,
+    book_isbn INT PRIMARY KEY,
     book_title VARCHAR(40),
     publisher VARCHAR(20),
     author VARCHAR(20)
 );
 
 CREATE TABLE book_adoption(
-	course_no INT,
+    course_no INT,
     sem INT,
     book_isbn INT,
     FOREIGN KEY(course_no) REFERENCES course(course_no) ON DELETE CASCADE,
