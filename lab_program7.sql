@@ -3,7 +3,7 @@ CREATE DATABASE AIRLINE;
 USE AIRLINE;
 
 CREATE TABLE flights(
-	flno INT PRIMARY KEY,
+    flno INT PRIMARY KEY,
     from_place VARCHAR(40),
     to_place VARCHAR(40),
     distance INT,
@@ -13,19 +13,19 @@ CREATE TABLE flights(
 );
 
 CREATE TABLE aircraft(
-	aid INT PRIMARY KEY,
+    aid INT PRIMARY KEY,
     aname VARCHAR(40),
     cruisingrange INT
 );
 
 CREATE TABLE employee(
-	eid INT PRIMARY KEY,
+    eid INT PRIMARY KEY,
     ename VARCHAR(40),
     salary INT
 );
 
 CREATE TABLE certified(
-	eid INT,
+    eid INT,
     aid INT,
     FOREIGN KEY(eid) REFERENCES employee(eid) ON DELETE CASCADE,
     FOREIGN KEY(aid) REFERENCES aircraft(aid) ON DELETE CASCADE,
