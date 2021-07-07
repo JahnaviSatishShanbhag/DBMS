@@ -2,110 +2,90 @@ CREATE DATABASE AIRLINE;
 
 USE AIRLINE;
 
-CREATE TABLE flights(
-    flno INT PRIMARY KEY,
-    from_place VARCHAR(40),
-    to_place VARCHAR(40),
-    distance INT,
-    departs TIME,
-    arrives TIME,
-    price INT
-);
+create table flight(
+flno int,
+ffrom varchar(20),
+tto varchar(20),
+distance int,
+departs timestamp,
+arrives timestamp,
+price int,
+primary key(flno));
 
-CREATE TABLE aircraft(
-    aid INT PRIMARY KEY,
-    aname VARCHAR(40),
-    cruisingrange INT
-);
+create table aircraft(
+aid int,
+aname varchar(20),
+crusingrange int,
+primary key(aid));
 
-CREATE TABLE employee(
-    eid INT PRIMARY KEY,
-    ename VARCHAR(40),
-    salary INT
-);
+create table employees(
+eid int,
+ename varchar(20),
+salary int,
+primary key(eid));
 
-CREATE TABLE certified(
-    eid INT,
-    aid INT,
-    FOREIGN KEY(eid) REFERENCES employee(eid) ON DELETE CASCADE,
-    FOREIGN KEY(aid) REFERENCES aircraft(aid) ON DELETE CASCADE,
-    PRIMARY KEY(eid,aid)
-);
+create table certified(
+eid int,
+aid int,
+primary key(eid,aid),
+foreign key(eid) references employees(eid),
+foreign key(aid) references aircraft(aid));
 
-INSERT INTO flights VALUES(1,"Bengaluru","Mumbai",500,"16:00:00","19:00:00",5000);
-INSERT INTO flights VALUES(2,"Madison","Washington",300,"04:50:00","10:30:00",3000);
-INSERT INTO flights VALUES(3,"Bengaluru","New Delhi",800,"10:00:00","13:00:00",8000);
-INSERT INTO flights VALUES(4,"Washington","New York",900,"16:00:00","17:00:00",9000);
-INSERT INTO flights VALUES(5,"Bengaluru","Ahemdabad",950,"15:20:00","17:15:00",5000);
-INSERT INTO flights VALUES(6,"Bengaluru","Frankfurt",750,"18:20:00","21:15:00",8000);
-INSERT INTO flights VALUES(7,"Bengaluru","Frankfurt",750,"14:20:00","17:15:00",5000);
+insert into aircraft
+values(101,"747",3000),(102,"Boeing",900),(103,"647",800),(104,"Dreamliner",10000),(105,"Boeing",3500),(106,"707",1500),(107,"Dream",120000);
 
-INSERT INTO aircraft VALUES(1,"King fisher",100);
-INSERT INTO aircraft VALUES(2,"Jet airways",8000);
-INSERT INTO aircraft VALUES(3,"Indian airlines",5000);
-INSERT INTO aircraft VALUES(4,"King jet",900);
-INSERT INTO aircraft VALUES(5,"Foreign travels",2000);
+insert into employees
+values(701,"A",50000),(702,"B",100000),(703,"C",150000),(704,"D",90000),(705,"E",40000),(706,"F",60000),(707,"G",90000);
 
-INSERT INTO employee VALUES(1,"Kalpana",85000);
-INSERT INTO employee VALUES(2,"Mahima",80000);
-INSERT INTO employee VALUES(3,"Harshad",4000);
-INSERT INTO employee VALUES(4,"Atharv",85000);
-INSERT INTO employee VALUES(5,"Vidyuth",95000);
-INSERT INTO employee VALUES(6,"Sakhi",90000);
-INSERT INTO employee VALUES(7,"Rajesh",81000);
-INSERT INTO employee VALUES(8,"Vandana",78000);
-INSERT INTO employee VALUES(9,"Dakshesh",4000);
+insert into certified
+values(701,101),(701,102),(701,106),(701,105),(702,104),(703,104),(704,104),(702,107),(703,107),(704,107),(702,101),(703,105),(704,105),(705,103);
 
-INSERT INTO certified VALUES(1,1);
-INSERT INTO certified VALUES(2,3);
-INSERT INTO certified VALUES(3,5);
-INSERT INTO certified VALUES(7,2);
-INSERT INTO certified VALUES(8,4);
-INSERT INTO certified VALUES(1,4);
-INSERT INTO certified VALUES(1,5);
-INSERT INTO certified VALUES(2,4);
+insert into flight
+values(101,"Bangalore","Delhi",2500,"2005-05-13 07:15:31","2005-05-13 17:15:31",5000),(102,"Bangalore","Lucknow",3000,"2005-05-13 07:15:31","2005-05-13 11:15:31",6000),(103,"Lucknow","Delhi",500,"2005-05-13 12:15:31","2005-05-13 17:15:31",3000),(107,"Bangalore","Frankfurt",8000,"2005-05-13 07:15:31","2005-05-13 22:15:31",60000),(104,"Bangalore","Frankfurt",8500,"2005-05-13 07:15:31","2005-05-13 23:15:31",75000),(105,"Kolkata","Delhi",3400,"2005-05-13 07:15:31","2005-05-13 09:15:31",7000);
 
-SELECT * FROM flights;
-SELECT * FROM aircraft;
-SELECT * FROM certified;
-SELECT * FROM employee;
-
-SELECT a.aname FROM aircraft a
-INNER JOIN certified c
-ON a.aid=c.aid
-INNER JOIN employee e
-ON c.eid=e.eid
-WHERE e.salary>80000;
-
-SELECT c.eid,MAX(a.cruisingrange) FROM certified c
-INNER JOIN aircraft a
-ON c.aid=a.aid
-GROUP BY c.eid
-HAVING COUNT(c.eid)>=3;
-
-SELECT e.ename FROM employee e
-INNER JOIN certified c
-ON e.eid=c.eid
-WHERE e.salary<(SELECT MIN(f.price) FROM flights f
-WHERE f.from_place="Bengaluru" AND f.to_place="Frankfurt");
-
-SELECT e.ename FROM employee e
-INNER JOIN certified c
-ON c.eid=e.eid
-INNER JOIN aircraft a
-ON a.aid=c.aid
-AND a.aname="King fisher";
-
-SELECT e.ename,e.salary FROM employee e
-WHERE e.eid NOT IN (SELECT DISTINCT eid FROM certified)
-AND
-e.salary>(SELECT AVG(e.salary) FROM employee e
-WHERE e.eid IN (SELECT DISTINCT eid FROM certified));
-
-SELECT a.aname,AVG(e.salary) FROM aircraft a,certified c,employee e
-WHERE a.aid=c.aid
-AND
+select distinct a.aname from aircraft a,certified c,employees e
+where a.aid=c.aid
+and
 c.eid=e.eid
-AND
-a.cruisingrange>=1000
-GROUP BY c.aid;
+and
+e.salary>80000;
+
+select c.eid,max(a.crusingrange) from aircraft a,certified c
+where a.aid=c.aid
+and
+c.eid in (select distinct eid from certified
+group by eid
+having count(*)>3);
+
+select e.ename from employees e
+where e.salary<(select min(f.price) from flight f
+where f.ffrom="Bangalore"
+and
+f.tto="Frankfurt");
+
+select a.aname,avg(e.salary) from aircraft a,certified c,employees e
+where a.aid=c.aid
+and
+c.eid=e.eid
+and
+a.crusingrange>1000
+group by c.aid;
+
+select distinct e.ename from employees e,aircraft a,certified c
+where a.aid=c.aid
+and
+c.eid=e.eid
+and
+a.aname="Boeing";
+
+select a.aid from aircraft a
+where a.crusingrange>(select min(f.distance) from flight f
+where f.ffrom="Bangalore"
+and
+f.tto="Frankfurt");
+
+select e.ename,e.salary from employees e
+where e.eid not in (select distinct eid from certified)
+and
+e.salary>(select avg(salary) from employees
+where eid in (select distinct eid from certified));
